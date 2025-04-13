@@ -1,14 +1,41 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { RootState } from '../../services/rootReducer';
+import { setSelectedIngredient } from '../../services/slices/ingredientsSlice';
+
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
 
-export const IngredientDetails: FC = () => {
-  /** TODO: взять переменную из стора */
-  const ingredientData = null;
+import { TIngredient } from '@utils-types';
 
-  if (!ingredientData) {
+export const IngredientDetails: FC = () => {
+  const dispatch = useDispatch();
+  const { id } = useParams<{ id: string }>();
+
+  const chosenIngredient = useSelector(
+    (state: RootState) => state.ingredients.selectedIngredient
+  );
+
+  const allAvailableIngredients: TIngredient[] = [
+    ...useSelector((state: RootState) => state.ingredients.buns),
+    ...useSelector((state: RootState) => state.ingredients.mains),
+    ...useSelector((state: RootState) => state.ingredients.sauces)
+  ];
+
+  useEffect(() => {
+    if (!chosenIngredient && id) {
+      const foundItem = allAvailableIngredients.find((item) => item._id === id);
+      if (foundItem) {
+        dispatch(setSelectedIngredient(foundItem));
+      }
+    }
+  }, [chosenIngredient, id, allAvailableIngredients, dispatch]);
+
+  if (!chosenIngredient) {
     return <Preloader />;
   }
 
-  return <IngredientDetailsUI ingredientData={ingredientData} />;
+  return <IngredientDetailsUI ingredientData={chosenIngredient} />;
 };

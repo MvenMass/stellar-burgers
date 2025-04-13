@@ -22,8 +22,7 @@ export const ResetPasswordUI: FC<ResetPasswordUIProps> = ({
       <form
         className={`pb-15 ${styles.form}`}
         name='login'
-        onSubmit={handleSubmit}
-      >
+        onSubmit={handleSubmit}>
         <div className='pb-6'>
           <PasswordInput
             onChange={(e) => setPassword(e.target.value)}

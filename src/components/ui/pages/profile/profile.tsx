@@ -21,8 +21,7 @@ export const ProfileUI: FC<ProfileUIProps> = ({
     </div>
     <form
       className={`mt-30 ${styles.form} ${commonStyles.form}`}
-      onSubmit={handleSubmit}
-    >
+      onSubmit={handleSubmit}>
       <>
         <div className='pb-6'>
           <Input
@@ -69,8 +68,7 @@ export const ProfileUI: FC<ProfileUIProps> = ({
               type='secondary'
               htmlType='button'
               size='medium'
-              onClick={handleCancel}
-            >
+              onClick={handleCancel}>
               Отменить
             </Button>
             <Button type='primary' size='medium' htmlType='submit'>
@@ -80,8 +78,7 @@ export const ProfileUI: FC<ProfileUIProps> = ({
         )}
         {updateUserError && (
           <p
-            className={`${commonStyles.error} pt-5 text text_type_main-default`}
-          >
+            className={`${commonStyles.error} pt-5 text text_type_main-default`}>
             {updateUserError}
           </p>
         )}

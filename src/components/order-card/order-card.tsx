@@ -4,53 +4,63 @@ import { useLocation } from 'react-router-dom';
 import { OrderCardProps } from './type';
 import { TIngredient } from '@utils-types';
 import { OrderCardUI } from '../ui/order-card';
+import { useSelector } from '../../services/store';
+import { getIngredientsSelector } from '@slices';
 
-const maxIngredients = 6;
+const MAX_INGREDIENTS = 6; // Константа для ограничения количества ингредиентов
 
 export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
   const location = useLocation();
 
-  /** TODO: взять переменную из стора */
-  const ingredients: TIngredient[] = [];
+  // Получаем список всех ингредиентов из стора
+  const ingredientsList: TIngredient[] = useSelector(getIngredientsSelector);
 
-  const orderInfo = useMemo(() => {
-    if (!ingredients.length) return null;
+  // Вычисление информации о заказе
+  const orderDetails = useMemo(() => {
+    if (!ingredientsList.length) return null;
 
-    const ingredientsInfo = order.ingredients.reduce(
-      (acc: TIngredient[], item: string) => {
-        const ingredient = ingredients.find((ing) => ing._id === item);
-        if (ingredient) return [...acc, ingredient];
+    // Получаем список ингредиентов, которые находятся в заказе
+    const matchedIngredients = order.ingredients.reduce(
+      (acc: TIngredient[], ingredientId: string) => {
+        const ingredient = ingredientsList.find(
+          (ing) => ing._id === ingredientId
+        );
+        if (ingredient) acc.push(ingredient);
         return acc;
       },
       []
     );
 
-    const total = ingredientsInfo.reduce((acc, item) => acc + item.price, 0);
+    const totalCost = matchedIngredients.reduce(
+      (acc, item) => acc + item.price,
+      0
+    );
 
-    const ingredientsToShow = ingredientsInfo.slice(0, maxIngredients);
+    const ingredientsToDisplay = matchedIngredients.slice(0, MAX_INGREDIENTS);
 
-    const remains =
-      ingredientsInfo.length > maxIngredients
-        ? ingredientsInfo.length - maxIngredients
+    const remainingIngredients =
+      matchedIngredients.length > MAX_INGREDIENTS
+        ? matchedIngredients.length - MAX_INGREDIENTS
         : 0;
 
-    const date = new Date(order.createdAt);
+    const createdAt = new Date(order.createdAt);
+
     return {
       ...order,
-      ingredientsInfo,
-      ingredientsToShow,
-      remains,
-      total,
-      date
+      ingredientsInfo: matchedIngredients,
+      ingredientsToShow: ingredientsToDisplay,
+      remains: remainingIngredients,
+      total: totalCost,
+      date: createdAt
     };
-  }, [order, ingredients]);
+  }, [order, ingredientsList]);
 
-  if (!orderInfo) return null;
+  if (!orderDetails) return null;
 
   return (
     <OrderCardUI
-      orderInfo={orderInfo}
-      maxIngredients={maxIngredients}
+      orderInfo={orderDetails}
+      maxIngredients={MAX_INGREDIENTS}
       locationState={{ background: location }}
     />
   );
