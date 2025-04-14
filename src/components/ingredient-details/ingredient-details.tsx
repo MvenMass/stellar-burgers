@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from '../../services/rootReducer';
@@ -13,6 +13,7 @@ import { TIngredient } from '@utils-types';
 export const IngredientDetails: FC = () => {
   const dispatch = useDispatch();
   const { id } = useParams<{ id: string }>();
+  const location = useLocation();
 
   const chosenIngredient = useSelector(
     (state: RootState) => state.ingredients.selectedIngredient
@@ -37,5 +38,9 @@ export const IngredientDetails: FC = () => {
     return <Preloader />;
   }
 
-  return <IngredientDetailsUI ingredientData={chosenIngredient} />;
+  const isModal = !!location.state?.background;
+
+  return (
+    <IngredientDetailsUI ingredientData={chosenIngredient} isModal={isModal} />
+  );
 };
