@@ -15,8 +15,7 @@ export const ProfileMenuUI: FC<ProfileMenuUIProps> = ({
           styles.link
         } ${isActive ? styles.link_active : ''}`
       }
-      end
-    >
+      end>
       Профиль
     </NavLink>
     <NavLink
@@ -25,14 +24,12 @@ export const ProfileMenuUI: FC<ProfileMenuUIProps> = ({
         `text text_type_main-medium text_color_inactive pt-4 pb-4 ${
           styles.link
         } ${isActive ? styles.link_active : ''}`
-      }
-    >
+      }>
       История заказов
     </NavLink>
     <button
       className={`text text_type_main-medium text_color_inactive pt-4 pb-4 ${styles.button}`}
-      onClick={handleLogout}
-    >
+      onClick={handleLogout}>
       Выход
     </button>
     <p className='pt-20 text text_type_main-default text_color_inactive'>

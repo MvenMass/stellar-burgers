@@ -20,8 +20,7 @@ const meta = {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center'
-        }}
-      >
+        }}>
         <Story />
       </div>
     )

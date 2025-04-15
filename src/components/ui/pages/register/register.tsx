@@ -24,8 +24,7 @@ export const RegisterUI: FC<RegisterUIProps> = ({
       <form
         className={`pb-15 ${styles.form}`}
         name='register'
-        onSubmit={handleSubmit}
-      >
+        onSubmit={handleSubmit}>
         <>
           <div className='pb-6'>
             <Input

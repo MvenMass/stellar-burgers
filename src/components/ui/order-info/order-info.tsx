@@ -30,8 +30,7 @@ export const OrderInfoUI: FC<OrderInfoUIProps> = memo(({ orderInfo }) => (
           </div>
           <span className='text text_type_main-default pl-4'>{item.name}</span>
           <span
-            className={`text text_type_digits-default pl-4 pr-4 ${styles.quantity}`}
-          >
+            className={`text text_type_digits-default pl-4 pr-4 ${styles.quantity}`}>
             {item.count} x {item.price}
           </span>
           <CurrencyIcon type={'primary'} />

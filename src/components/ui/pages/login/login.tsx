@@ -22,8 +22,7 @@ export const LoginUI: FC<LoginUIProps> = ({
       <form
         className={`pb-15 ${styles.form}`}
         name='login'
-        onSubmit={handleSubmit}
-      >
+        onSubmit={handleSubmit}>
         <>
           <div className='pb-6'>
             <Input

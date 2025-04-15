@@ -5,7 +5,9 @@
   align-items: center;
   text-align: center;
   width: 520px;
+  align-self: center;
 }
+
 
 .nutritional_values {
   display: flex;
