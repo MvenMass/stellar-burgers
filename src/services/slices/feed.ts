@@ -90,7 +90,7 @@ const feedSlice = createSlice({
 
 // Селекторы
 export const getFeedStateSelector = (state: RootState) => state.feed;
-
+export const feedInitialState = initialState;
 export const getOrdersSelector = createSelector(
   getFeedStateSelector,
   (feed) => feed.orders

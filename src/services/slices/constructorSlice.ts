@@ -7,7 +7,8 @@ import {
 import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
 import { orderBurgerApi } from '@api';
 
-interface ConstructorState {
+export interface ConstructorState {
+  ingredients: any;
   isLoading: boolean;
   constructorItems: {
     bun: TConstructorIngredient | null;
@@ -18,7 +19,8 @@ interface ConstructorState {
   error: string | null;
 }
 
-const initialState: ConstructorState = {
+// Экспортируем начальное состояние
+export const initialState: ConstructorState = {
   isLoading: false,
   constructorItems: {
     bun: null,
@@ -26,7 +28,8 @@ const initialState: ConstructorState = {
   },
   orderRequest: false,
   orderModalData: null,
-  error: null
+  error: null,
+  ingredients: undefined
 };
 
 // Асинхронный thunk для отправки заказа
@@ -35,11 +38,10 @@ export const sendOrderThunk = createAsyncThunk(
   async (data: string[]) => await orderBurgerApi(data)
 );
 
-const constructorSlice = createSlice({
+export const constructorSlice = createSlice({
   name: 'constructorBurg',
   initialState,
   reducers: {
-    // Добавление ингредиента в конструктор
     addIngredientToBasket: {
       reducer: (state, action) => {
         const ingredient = action.payload;
@@ -56,7 +58,6 @@ const constructorSlice = createSlice({
       })
     },
 
-    // Удаление ингредиента из конструктора
     deleteIngredientFromBasket: (state, action: PayloadAction<string>) => {
       const ingredientId = action.payload;
       state.constructorItems.ingredients =
@@ -65,34 +66,34 @@ const constructorSlice = createSlice({
         );
     },
 
-    // Установка состояния запроса заказа
     setOrderRequest: (state, action: PayloadAction<boolean>) => {
       state.orderRequest = action.payload;
     },
 
-    // Сброс данных модального окна заказа
     setNullOrderModalData: (state) => {
       state.orderModalData = null;
     },
 
-    // Перемещение ингредиента вверх
     moveIngredientUp: (state, action: PayloadAction<number>) => {
       const index = action.payload;
       const ingredients = state.constructorItems.ingredients;
-      [ingredients[index], ingredients[index - 1]] = [
-        ingredients[index - 1],
-        ingredients[index]
-      ];
+      if (index > 0) {
+        [ingredients[index], ingredients[index - 1]] = [
+          ingredients[index - 1],
+          ingredients[index]
+        ];
+      }
     },
 
-    // Перемещение ингредиента вниз
     moveIngredientDown: (state, action: PayloadAction<number>) => {
       const index = action.payload;
       const ingredients = state.constructorItems.ingredients;
-      [ingredients[index], ingredients[index + 1]] = [
-        ingredients[index + 1],
-        ingredients[index]
-      ];
+      if (index < ingredients.length - 1) {
+        [ingredients[index], ingredients[index + 1]] = [
+          ingredients[index + 1],
+          ingredients[index]
+        ];
+      }
     }
   },
   extraReducers: (builder) => {

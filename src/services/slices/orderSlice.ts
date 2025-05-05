@@ -43,7 +43,7 @@ const orderSlice = createSlice({
       });
   }
 });
-
+export { initialState as orderInitialState };
 // Селектор для получения состояния заказа
 export const getOrderSelector = (state: { orders: OrderState }) => state.orders;
 
