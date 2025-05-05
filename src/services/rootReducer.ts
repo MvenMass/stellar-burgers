@@ -6,7 +6,7 @@ import basketReducer from './slices/constructorSlice';
 import constructorSlice from './slices/constructorSlice';
 import feedReducer from './slices/feed';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   constructorBurg: constructorSlice,
   ingredients: ingredientsReducer,
   user: userReducer,

@@ -66,6 +66,7 @@ const ingredientsSlice = createSlice({
 // Экспорт экшенов и редюсера
 export const { setSelectedIngredient } = ingredientsSlice.actions;
 export default ingredientsSlice.reducer;
+export const ingredientsInitialState = initialState;
 
 // Селектор для получения всех ингредиентов
 export const getIngredientsSelector = (state: RootState): TIngredient[] => [
